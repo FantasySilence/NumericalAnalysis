@@ -1,7 +1,7 @@
 import numpy as np
 from fractions import Fraction
 
-from src.common.utilslinearEqsystem.checker import check_matrix
+from src.common.utilslinearEqsystem.checker import isMatrixReasonale
 
 
 class JGSIterationMethod:
@@ -10,7 +10,7 @@ class JGSIterationMethod:
     雅可比迭代法，高斯赛德尔迭代法以及SOR超松弛迭代法
     """
 
-    @check_matrix
+    @isMatrixReasonale("Iteration")
     def __init__(self, matrix:np.ndarray, x0=None, Iter_type:str="jacobi", w:float=1.0, 
                  max_iter:int=1000, epsilon:float=1e-15, is_print:bool=True):
 

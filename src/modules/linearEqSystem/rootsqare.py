@@ -1,6 +1,7 @@
 import numpy as np
 from fractions import Fraction
 
+from src.common.utilslinearEqsystem.checker import isMatrixReasonale
 
 
 class RootSquareDecomposition:
@@ -10,6 +11,7 @@ class RootSquareDecomposition:
     要求系数矩阵为对称(正定)矩阵
     """
 
+    @isMatrixReasonale("RootSquare")
     def __init__(self, matrix:np.ndarray, decom_type:str="ichol", is_print:bool=True):
 
         """
@@ -21,16 +23,6 @@ class RootSquareDecomposition:
         请查询类属性self.L, self.D, self.solution
         """
 
-        check_matrix = matrix.copy()
-        if check_matrix[:,:-1].shape[0] != check_matrix[:,:-1].shape[1]:
-            raise ValueError('线性方程组的系数矩阵不是方阵')
-        if not np.allclose(check_matrix[:,:-1], check_matrix[:,:-1].T):
-            raise ValueError('线性方程组的系数矩阵不是对称矩阵')
-        if np.linalg.matrix_rank(check_matrix[:,:-1]) != np.linalg.matrix_rank(matrix):
-            raise ValueError('该线性方程组无解')
-        if np.linalg.matrix_rank(check_matrix[:,:-1]) == np.linalg.matrix_rank(matrix) \
-           and np.linalg.matrix_rank(check_matrix[:,:-1]) < check_matrix[:,:-1].shape[0]:
-            raise ValueError('该线性方程组有多个解,暂时支持有唯一解的方程组')
         self.A = matrix[:,:-1]      # 线性方程组的系数矩阵
         self.b = matrix[:,-1]       # 线性方程组的右端向量
         self.L = np.identity(self.A.shape[0], dtype=np.float64)       # 平方根分解法，L矩阵，下三角矩阵
