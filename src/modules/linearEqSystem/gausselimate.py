@@ -1,7 +1,7 @@
 import numpy as np
 from fractions import Fraction
 
-from src.common.utilslinearEqsystem.checker import isMatrixReasonale
+from src.common.utilslinearEqsystem.checker import isMatrixReasonable
 
 
 class GuassElimation:
@@ -10,7 +10,7 @@ class GuassElimation:
     高斯消去法求解线性方程组
     """
 
-    @isMatrixReasonale("GaussElimate")
+    @isMatrixReasonable("GaussElimate")
     def __init__(self, matrix:np.ndarray, solve_type:str="order", is_print:bool=True):
 
         """

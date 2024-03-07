@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class isMatrixReasonale:
+class isMatrixReasonable:
 
     """
     定义一个装饰器类，用于检查传入的矩阵是否满足条件

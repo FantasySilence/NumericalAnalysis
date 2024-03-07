@@ -1,7 +1,7 @@
 import numpy as np
 from fractions import Fraction
 
-from src.common.utilslinearEqsystem.checker import isMatrixReasonale
+from src.common.utilslinearEqsystem.checker import isMatrixReasonable
 
 
 class TriangleDecomposition:
@@ -10,7 +10,7 @@ class TriangleDecomposition:
     直接三角分解法求解线性方程组
     """
 
-    @isMatrixReasonale("TriangleDecomposite")
+    @isMatrixReasonable("TriangleDecomposite")
     def __init__(self, matrix:np.ndarray, decom_type:str="LU", is_print:bool=True):
 
         """
