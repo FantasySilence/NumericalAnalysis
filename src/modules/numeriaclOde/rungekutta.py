@@ -7,15 +7,14 @@ matplotlib.rcParams['font.sans-serif'] = ['STSong']
 matplotlib.rcParams['axes.unicode_minus'] = False
 
 
-
 class RungeKuttaOdeMethod:
 
     """
     龙格-库塔方法求解常微分方程的数值解
     """
 
-    def __init__(self, fun, interval:list, x0:float, y0:float, h:float=0.001,
-                  is_print:bool=True, RK_order:int=4):
+    def __init__(self, fun, interval: list, x0: float, y0: float, h: float = 0.001,
+                 is_print: bool = True, RK_order: int = 4):
 
         """
         参数初始化
@@ -36,12 +35,11 @@ class RungeKuttaOdeMethod:
         self.interval = np.asarray(interval)
         a, b, self.h = interval[0], interval[1], h
         self.RK_order = RK_order
-        self.xn, self.yn = np.arange(a, b+h, h), np.zeros(len(np.arange(a, b+h, h)))       # 储存结果
+        self.xn, self.yn = np.arange(a, b + h, h), np.zeros(len(np.arange(a, b + h, h)))  # 储存结果
         self.x0, self.yn[0] = x0, y0
         self.__cal_res__()
         if is_print:
             self.__print__()
-    
 
     def __cal_res__(self):
 
@@ -52,31 +50,31 @@ class RungeKuttaOdeMethod:
         # 2阶龙格-库塔方法(RK2)
         if self.RK_order == 2:
             for i in range(1, len(self.xn)):
-                K1 = self.fun(self.xn[i-1], self.yn[i-1])
-                K2 = self.fun(self.xn[i-1] + self.h/2, self.yn[i-1] + self.h*K1/2)
-                self.yn[i] = self.yn[i-1] + self.h*K2
+                K1 = self.fun(self.xn[i - 1], self.yn[i - 1])
+                K2 = self.fun(self.xn[i - 1] + self.h / 2, self.yn[i - 1] + self.h * K1 / 2)
+                self.yn[i] = self.yn[i - 1] + self.h * K2
 
         # 3阶龙格-库塔方法(RK3)
         elif self.RK_order == 3:
             for i in range(1, len(self.xn)):
-                K1 = self.fun(self.xn[i-1], self.yn[i-1])
-                K2 = self.fun(self.xn[i-1] + self.h/2, self.yn[i-1] + self.h*K1/2)
-                K3 = self.fun(self.xn[i-1] + self.h, self.yn[i-1] - self.h*K1 + 2*self.h*K2)
-                self.yn[i] = self.yn[i-1] + self.h*(K1 + 4*K2 + K3)/6
-        
+                K1 = self.fun(self.xn[i - 1], self.yn[i - 1])
+                K2 = self.fun(self.xn[i - 1] + self.h / 2, self.yn[i - 1] + self.h * K1 / 2)
+                K3 = self.fun(self.xn[i - 1] + self.h, self.yn[i - 1] - self.h * K1 + 2 * self.h * K2)
+                self.yn[i] = self.yn[i - 1] + self.h * (K1 + 4 * K2 + K3) / 6
+
         # 4阶龙格-库塔方法(RK4)
         elif self.RK_order == 4:
             for i in range(1, len(self.xn)):
-                K1 = self.fun(self.xn[i-1], self.yn[i-1])
-                K2 = self.fun(self.xn[i-1] + self.h/2, self.yn[i-1] + self.h*K1/2)
-                K3 = self.fun(self.xn[i-1] + self.h/2, self.yn[i-1] + self.h*K2/2)
-                K4 = self.fun(self.xn[i-1] + self.h, self.yn[i-1] + self.h*K3)
-                self.yn[i] = self.yn[i-1] + self.h*(K1 + 2*K2 + 2*K3 + K4)/6
+                K1 = self.fun(self.xn[i - 1], self.yn[i - 1])
+                K2 = self.fun(self.xn[i - 1] + self.h / 2, self.yn[i - 1] + self.h * K1 / 2)
+                K3 = self.fun(self.xn[i - 1] + self.h / 2, self.yn[i - 1] + self.h * K2 / 2)
+                K4 = self.fun(self.xn[i - 1] + self.h, self.yn[i - 1] + self.h * K3)
+                self.yn[i] = self.yn[i - 1] + self.h * (K1 + 2 * K2 + 2 * K3 + K4) / 6
 
         else:
-            raise ValueError("求解方式输入错误,仅支持2阶龙格-库塔方法(RK2), 3阶龙格-库塔方法(RK3),4阶龙格-库塔方法(RK4)")
+            raise ValueError(
+                "求解方式输入错误,仅支持2阶龙格-库塔方法(RK2), 3阶龙格-库塔方法(RK3),4阶龙格-库塔方法(RK4)")
 
-    
     def __print__(self):
 
         """
@@ -96,12 +94,11 @@ class RungeKuttaOdeMethod:
             print("3阶龙格-库塔方法\n求解常微分方程的数值解")
         else:
             print("4阶龙格-库塔方法\n求解常微分方程的数值解")
-        print("="*20)
+        print("=" * 20)
         print(df)
-        print("="*20)
-    
+        print("=" * 20)
 
-    def plot(self, is_show:bool=True):
+    def plot(self, is_show: bool = True):
 
         """
         绘制结果
@@ -109,7 +106,7 @@ class RungeKuttaOdeMethod:
         """
 
         if is_show:
-            plt.figure(figsize=(16,12), dpi=160)
+            plt.figure(figsize=(16, 12), dpi=160)
         if self.RK_order == 2:
             plt.title("2阶龙格-库塔方法\n求解常微分方程的数值解", fontsize=14)
             lab = "RK2"

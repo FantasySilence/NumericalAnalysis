@@ -9,7 +9,6 @@ from src.common.utilsinterpolation.piecewise_utils import cal_interp
 from src.common.utilsinterpolation.piecewise_utils import plt_interp
 
 
-
 class CubicSplineInterpolation:
 
     """
@@ -37,7 +36,6 @@ class CubicSplineInterpolation:
         self.polynomial = None  # 最终的插值多项式的符号表示
         self.poly_coefficient = None  # 最终的插值多项式的系数，幂次从高到低
         self.y0 = None  # 所求插值点的值，单个值或者向量
-
 
     def fit_interp(self):
 
@@ -67,7 +65,6 @@ class CubicSplineInterpolation:
         else:
             raise ValueError("边界条件类型错误！")
 
-
     def __spline_poly__(self, t, x, y, m):
 
         """
@@ -80,17 +77,16 @@ class CubicSplineInterpolation:
         for i in range(self.n - 1):
             hi = x[i + 1] - x[i]  # 子区间长度
             pi = (
-                y[i] / hi**3 * (2 * (t - x[i]) + hi) * (x[i + 1] - t) ** 2
-                + y[i + 1] / hi**3 * (2 * (x[i + 1] - t) + hi) * (t - x[i]) ** 2
-                + m[i] / hi**2 * (t - x[i]) * (x[i + 1] - t) ** 2
-                - m[i + 1] / hi**2 * (x[i + 1] - t) * (t - x[i]) ** 2
+                    y[i] / hi ** 3 * (2 * (t - x[i]) + hi) * (x[i + 1] - t) ** 2
+                    + y[i + 1] / hi ** 3 * (2 * (x[i + 1] - t) + hi) * (t - x[i]) ** 2
+                    + m[i] / hi ** 2 * (t - x[i]) * (x[i + 1] - t) ** 2
+                    - m[i + 1] / hi ** 2 * (x[i + 1] - t) * (t - x[i]) ** 2
             )
             self.polynomial[i] = sp.simplify(pi)
             poly_obj = sp.Poly(pi, t)
             mons = poly_obj.monoms()
             for j in range(len(mons)):
                 self.poly_coefficient[i, mons[j][0]] = poly_obj.coeffs()[j]
-
 
     def __complete_spline__(self, t, x, y, dy):
 
@@ -104,13 +100,12 @@ class CubicSplineInterpolation:
             u = (x[i] - x[i - 1]) / (x[i + 1] - x[i - 1])
             lambda_ = (x[i + 1] - x[i]) / (x[i + 1] - x[i - 1])
             c[i] = 3 * lambda_ * (y[i] - y[i - 1]) / (x[i] - x[i - 1]) + 3 * u * (
-                y[i + 1] - y[i]
+                    y[i + 1] - y[i]
             ) / (x[i + 1] - x[i])
             A[i, i + 1], A[i, i - 1] = u, lambda_
         c[0], c[-1] = 2 * dy[0], 2 * dy[-1]  # 边界条件
         m = np.linalg.solve(A, c)
         self.__spline_poly__(t, x, y, m)  # 构造三次样条插值多项式
-
 
     def __second_spline__(self, t, x, y, d2y):
 
@@ -125,14 +120,14 @@ class CubicSplineInterpolation:
             u = (x[i] - x[i - 1]) / (x[i + 1] - x[i - 1])
             lambda_ = (x[i + 1] - x[i]) / (x[i + 1] - x[i - 1])
             c[i] = 3 * lambda_ * (y[i] - y[i - 1]) / (x[i] - x[i - 1]) + 3 * u * (
-                y[i + 1] - y[i]
+                    y[i + 1] - y[i]
             ) / (x[i + 1] - x[i])
             A[i, i + 1], A[i, i - 1] = u, lambda_
         c[0] = (
-            3 * (y[1] - y[0]) / (x[1] - x[0]) - (x[1] - x[0]) * d2y[0] / 2
+                3 * (y[1] - y[0]) / (x[1] - x[0]) - (x[1] - x[0]) * d2y[0] / 2
         )  # 边界条件
         c[-1] = (
-            3 * (y[-1] - y[-2]) / (x[-1] - x[-2]) - (x[-1] - x[-2]) * d2y[-1] / 2
+                3 * (y[-1] - y[-2]) / (x[-1] - x[-2]) - (x[-1] - x[-2]) * d2y[-1] / 2
         )  # 边界条件
         m = np.linalg.solve(A, c)
         self.__spline_poly__(t, x, y, m)  # 构造三次样条插值多项式
@@ -145,7 +140,6 @@ class CubicSplineInterpolation:
 
         d2y = np.array([0, 0])
         self.__second_spline__(t, x, y, d2y)
-
 
     def __periodic_spline__(self, t, x, y):
 
@@ -165,18 +159,17 @@ class CubicSplineInterpolation:
             u = (x[i] - x[i - 1]) / (x[i + 1] - x[i - 1])
             lambda_ = (x[i + 1] - x[i]) / (x[i + 1] - x[i - 1])
             c[i - 1] = 3 * lambda_ * (y[i] - y[i - 1]) / (x[i] - x[i - 1]) + 3 * u * (
-                y[i + 1] - y[i]
+                    y[i + 1] - y[i]
             ) / (x[i + 1] - x[i])
             if i < self.n - 2:
                 A[i, i + 1], A[i, i - 1] = u, lambda_
         c[-1] = (
-            3 * (he * (y[1] - y[0]) / h0 + h0 * (y[-1] - y[-2]) / he) / (he + h0)
+                3 * (he * (y[1] - y[0]) / h0 + h0 * (y[-1] - y[-2]) / he) / (he + h0)
         )  # 边界条件
         m = np.zeros(self.n)
         m[1:] = np.linalg.solve(A, c)
         m[0] = m[-1]  # 周期边界条件
         self.__spline_poly__(t, x, y, m)  # 构造三次样条插值多项式
-
 
     def cal_interp(self, x0):
 
@@ -187,7 +180,6 @@ class CubicSplineInterpolation:
 
         self.y0 = cal_interp(self.polynomial, self.x, x0)
         return self.y0
-
 
     def plt_interp(self, x0=None, y0=None):
 

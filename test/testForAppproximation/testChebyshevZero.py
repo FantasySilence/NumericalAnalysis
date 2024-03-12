@@ -11,11 +11,13 @@ sys.path.append(root_path)
 # 导入对应模块
 from src.modules.approximation.chebyshevzero import ChebyshevZeroPointsInterpolation
 
+
 # 测试用例
 def fun(x):
     return np.exp(x)
 
-czpi = ChebyshevZeroPointsInterpolation(fun=fun, order=2, x_span=[-1,1])
+
+czpi = ChebyshevZeroPointsInterpolation(fun=fun, order=2, x_span=[-1, 1])
 czpi.fit_approximation()
 print('切比雪夫多项式零点：')
 print(czpi.chebyshev_zeros)

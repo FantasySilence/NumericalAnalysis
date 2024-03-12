@@ -20,18 +20,18 @@ from src.modules.approximation.chebyshevseries import ChebyshevSeriesApproximati
 x = sp.symbols('x')
 fun = sp.exp(x)
 
-orders = np.arange(4,21,1)
+orders = np.arange(4, 21, 1)
 mae_ = np.zeros(len(orders))
 for i, order in enumerate(orders):
     print(order)
-    czpi = ChebyshevSeriesApproximation(fun,x_span=[0,1],k=order)
+    czpi = ChebyshevSeriesApproximation(fun, x_span=[0, 1], k=order)
     czpi.fit_approximation()
     mae_[i] = czpi.mae
 
-plt.figure(figsize=(8,6))
-plt.plot(orders,mae_,'ro-',lw=1.5)
-plt.xlabel('Orders',fontdict={"fontsize":12})
-plt.ylabel('Mean Abs Error',fontdict={"fontsize":12})
-plt.title("Absolute Error Variation Curve with Different Orders",fontdict={"fontsize":14})
+plt.figure(figsize=(8, 6))
+plt.plot(orders, mae_, 'ro-', lw=1.5)
+plt.xlabel('Orders', fontdict={"fontsize": 12})
+plt.ylabel('Mean Abs Error', fontdict={"fontsize": 12})
+plt.title("Absolute Error Variation Curve with Different Orders", fontdict={"fontsize": 14})
 plt.grid(ls=":")
 plt.show()

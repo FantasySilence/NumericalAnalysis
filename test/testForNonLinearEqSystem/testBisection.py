@@ -12,5 +12,5 @@ from src.modules.nonLinearEqSystem.bisection import BisectionMethod
 
 # 测试用例
 x = sp.Symbol('x')
-fun = sp.exp(-x) - sp.sin(sp.pi/2*x)
+fun = sp.exp(-x) - sp.sin(sp.pi / 2 * x)
 b = BisectionMethod(fun, [0, 1])

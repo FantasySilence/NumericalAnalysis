@@ -5,7 +5,6 @@ matplotlib.rcParams['font.sans-serif'] = ['STSong']
 matplotlib.rcParams['axes.unicode_minus'] = False
 
 
-
 class CubicBsplineInterpolationIntergration:
 
     """
@@ -29,7 +28,7 @@ class CubicBsplineInterpolationIntergration:
         else:
             raise ValueError("离散数据点长度需大于等于3！")
         self.int_value = None
-    
+
     def __check_equidistant__(self):
 
         """
@@ -41,7 +40,7 @@ class CubicBsplineInterpolationIntergration:
             return self.x[1] - self.x[0]
         else:
             raise ValueError("离散数据点不是等距的！")
-        
+
     def cal_int(self):
 
         """
@@ -49,10 +48,10 @@ class CubicBsplineInterpolationIntergration:
         """
 
         c_spline = self.__natural_bspline__()
-        self.int_value = self.h/24*(c_spline[0]+c_spline[-1]) +\
-                         self.h/2*(c_spline[1] + c_spline[-2]) +\
-                         23*self.h/24*(c_spline[2] + c_spline[-3]) +\
-                         self.h*sum(c_spline[3:-3])
+        self.int_value = self.h / 24 * (c_spline[0] + c_spline[-1]) + \
+                         self.h / 2 * (c_spline[1] + c_spline[-2]) + \
+                         23 * self.h / 24 * (c_spline[2] + c_spline[-3]) + \
+                         self.h * sum(c_spline[3:-3])
         return self.int_value
 
     def __natural_bspline__(self):
@@ -61,22 +60,22 @@ class CubicBsplineInterpolationIntergration:
         计算B样条函数系数
         """
 
-        A = 4*np.eye(self.n - 2)
+        A = 4 * np.eye(self.n - 2)
         I = np.eye(self.n - 2)
-        AL = np.r_[I[1:, :], np.zeros((1, self.n-2))]
-        AR = np.r_[np.zeros((1, self.n-2)), I[:-1, :]]
+        AL = np.r_[I[1:, :], np.zeros((1, self.n - 2))]
+        AR = np.r_[np.zeros((1, self.n - 2)), I[:-1, :]]
         A = A + AL + AR
         # 构造右端向量
         b = np.zeros(self.n - 2)
-        b[1:-1] = 6*self.y[2:-2]
-        b[0] = 6*self.y[1] - self.y[0]
-        b[-1] = 6*self.y[-2] - self.y[-1]
+        b[1:-1] = 6 * self.y[2:-2]
+        b[0] = 6 * self.y[1] - self.y[0]
+        b[-1] = 6 * self.y[-2] - self.y[-1]
         # 求解控制节点，共n+2个
-        c = np.zeros(self.n+2)
+        c = np.zeros(self.n + 2)
         d = np.linalg.solve(A, b)
         c[2:-2] = d
         c[1] = self.y[0]
-        c[0] = 2*c[1] - c[2]
+        c[0] = 2 * c[1] - c[2]
         c[-2] = self.y[-1]
-        c[-1] = 2*c[-2] - c[-3]
+        c[-1] = 2 * c[-2] - c[-3]
         return c

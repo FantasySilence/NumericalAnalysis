@@ -2,8 +2,8 @@ import numpy as np
 from sympy import Rational
 from sympy import Matrix
 
-def sci_display(arr:np.ndarray):
 
+def sci_display(arr: np.ndarray):
     """
     让矩阵显示出来(以数学的形式)
     """
@@ -18,5 +18,5 @@ def sci_display(arr:np.ndarray):
     elif len(arr.shape) == 2:
         for i in range(arr.shape[0]):
             for j in range(arr.shape[1]):
-                sci_arr[i,j] = Rational(arr[i,j]).limit_denominator()
+                sci_arr[i, j] = Rational(arr[i, j]).limit_denominator()
         return Matrix(sci_arr)

@@ -7,15 +7,14 @@ matplotlib.rcParams['font.sans-serif'] = ['STSong']
 matplotlib.rcParams['axes.unicode_minus'] = False
 
 
-
 class EulerOdeMethod:
 
     """
     欧拉法(改进的欧拉法)求解常微分方程的数值解
     """
 
-    def __init__(self, fun, interval:list, x0:float, y0:float, h:float=0.001,
-                  is_print:bool=True, solve_type:str="euler"):
+    def __init__(self, fun, interval: list, x0: float, y0: float, h: float = 0.001,
+                 is_print: bool = True, solve_type: str = "euler"):
 
         """
         参数初始化
@@ -36,13 +35,12 @@ class EulerOdeMethod:
         self.interval = np.asarray(interval)
         a, b, self.h = interval[0], interval[1], h
         self.solve_type = solve_type
-        self.xn, self.yn = np.arange(a, b+h, h), np.zeros(len(np.arange(a, b+h, h)))       # 储存结果
+        self.xn, self.yn = np.arange(a, b + h, h), np.zeros(len(np.arange(a, b + h, h)))  # 储存结果
         self.x0, self.yn[0] = x0, y0
         self.__cal_res__()
         if is_print:
             self.__print__()
 
-    
     def __cal_res__(self):
 
         """
@@ -52,20 +50,19 @@ class EulerOdeMethod:
         # 显式欧拉法
         if self.solve_type.lower() == "euler":
             for i in range(1, len(self.xn)):
-                self.yn[i] = self.yn[i-1] + self.h*self.fun(self.xn[i-1], self.yn[i-1])
+                self.yn[i] = self.yn[i - 1] + self.h * self.fun(self.xn[i - 1], self.yn[i - 1])
 
         # 改进的欧拉法
         elif self.solve_type.lower() == "improved_euler":
             for i in range(1, len(self.xn)):
                 # 预测
-                y_hat = self.yn[i-1] + self.h*self.fun(self.xn[i-1], self.yn[i-1])
+                y_hat = self.yn[i - 1] + self.h * self.fun(self.xn[i - 1], self.yn[i - 1])
                 # 校正
-                self.yn[i] = self.yn[i-1] + \
-                    self.h*(self.fun(self.xn[i-1], self.yn[i-1]) + self.fun(self.xn[i], y_hat))/2
-                
+                self.yn[i] = self.yn[i - 1] + \
+                             self.h * (self.fun(self.xn[i - 1], self.yn[i - 1]) + self.fun(self.xn[i], y_hat)) / 2
+
         else:
             raise ValueError("求解方式输入错误,仅支持欧拉法(euler), 改进欧拉法(improved_euler)")
-
 
     def __print__(self):
 
@@ -84,12 +81,11 @@ class EulerOdeMethod:
             print("欧拉法求解常微分方程的数值解")
         else:
             print("改进的欧拉法求解常微分方程的数值解")
-        print("="*20)
+        print("=" * 20)
         print(df)
-        print("="*20)
-        
+        print("=" * 20)
 
-    def plot(self, is_show:bool=True):
+    def plot(self, is_show: bool = True):
 
         """
         绘制结果
@@ -97,12 +93,11 @@ class EulerOdeMethod:
         """
 
         if is_show:
-            plt.figure(figsize=(16,12), dpi=160)
+            plt.figure(figsize=(16, 12), dpi=160)
         if self.solve_type.lower() == "euler":
             plt.title("显式欧拉法\n求解常微分方程的数值解", fontsize=14)
             lab = "显式欧拉法"
         else:
-            self.solve_type.lower() == "improved_euler"
             plt.title("改进的欧拉法\n求解常微分方程的数值解", fontsize=14)
             lab = "改进的欧拉法"
         x = np.asarray(self.xn)

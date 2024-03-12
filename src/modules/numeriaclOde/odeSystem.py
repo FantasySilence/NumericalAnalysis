@@ -7,7 +7,6 @@ matplotlib.rcParams['font.sans-serif'] = ['STSong']
 matplotlib.rcParams['axes.unicode_minus'] = False
 
 
-
 class FirstOrderOde:
 
     """
@@ -15,8 +14,8 @@ class FirstOrderOde:
     采用欧拉法以及2-4阶龙格-库塔法
     """
 
-    def __init__(self, fun, interval:list, Y0:list, h:float=0.001,
-                 is_print:bool=True, solve_type:str="RK4"):
+    def __init__(self, fun, interval: list, Y0: list, h: float = 0.001,
+                 is_print: bool = True, solve_type: str = "RK4"):
 
         """
         参数初始化\n
@@ -37,13 +36,12 @@ class FirstOrderOde:
         self.interval = np.asarray(interval)
         a, b, self.h = interval[0], interval[1], h
         self.solve_type = solve_type
-        self.tn = np.arange(a, b+h, h)      # 方程组的自变量
-        self.Yn = np.zeros((len(Y0), len(self.tn)))       # 储存结果
+        self.tn = np.arange(a, b + h, h)  # 方程组的自变量
+        self.Yn = np.zeros((len(Y0), len(self.tn)))  # 储存结果
         self.Yn[:, 0] = Y0
         self.__cal_res__()
         if is_print:
             self.__print__()
-    
 
     def __cal_res__(self):
 
@@ -54,44 +52,43 @@ class FirstOrderOde:
         # 改进的欧拉法
         if self.solve_type == "Euler":
             for i in range(1, len(self.tn)):
-                K1 = self.fun(*self.Yn[:, i-1], self.tn[i-1])
-                K2 = self.fun(*(self.Yn[:, i-1] + self.h*K1/2), self.tn[i-1] + self.h/2)
-                self.Yn[:, i] = self.Yn[:, i-1] + self.h*(K1 + K2)/2
+                K1 = self.fun(*self.Yn[:, i - 1], self.tn[i - 1])
+                K2 = self.fun(*(self.Yn[:, i - 1] + self.h * K1 / 2), self.tn[i - 1] + self.h / 2)
+                self.Yn[:, i] = self.Yn[:, i - 1] + self.h * (K1 + K2) / 2
 
         # 2阶龙格-库塔法(RK2)
         elif self.solve_type == "RK2":
             for i in range(1, len(self.tn)):
-                K1 = self.fun(*self.Yn[:, i-1], self.tn[i-1])
-                K2 = self.fun(*(self.Yn[:, i-1] + self.h*K1/2), self.tn[i-1] + self.h/2)
-                self.Yn[:, i] = self.Yn[:, i-1] + self.h*K2
+                K1 = self.fun(*self.Yn[:, i - 1], self.tn[i - 1])
+                K2 = self.fun(*(self.Yn[:, i - 1] + self.h * K1 / 2), self.tn[i - 1] + self.h / 2)
+                self.Yn[:, i] = self.Yn[:, i - 1] + self.h * K2
 
         # 3阶龙格-库塔法(RK3)
         elif self.solve_type == "RK3":
             for i in range(1, len(self.tn)):
-                K1 = self.fun(*self.Yn[:, i-1], self.tn[i-1])
-                K2 = self.fun(*(self.Yn[:, i-1] + self.h*K1/2), self.tn[i-1] + self.h/2)
-                K3 = self.fun(*(self.Yn[:, i-1] - self.h*K1 + 2*self.h*K2), self.tn[i-1] + self.h)
-                self.Yn[:, i] = self.Yn[:, i-1] + self.h*(K1 + 4*K2 + K3)/6
-        
+                K1 = self.fun(*self.Yn[:, i - 1], self.tn[i - 1])
+                K2 = self.fun(*(self.Yn[:, i - 1] + self.h * K1 / 2), self.tn[i - 1] + self.h / 2)
+                K3 = self.fun(*(self.Yn[:, i - 1] - self.h * K1 + 2 * self.h * K2), self.tn[i - 1] + self.h)
+                self.Yn[:, i] = self.Yn[:, i - 1] + self.h * (K1 + 4 * K2 + K3) / 6
+
         # 4阶龙格-库塔法(RK4)
         elif self.solve_type == "RK4":
             for i in range(1, len(self.tn)):
-                K1 = self.fun(*self.Yn[:, i-1], self.tn[i-1])
-                K2 = self.fun(*(self.Yn[:, i-1] + self.h*K1/2), self.tn[i-1] + self.h/2)
-                K3 = self.fun(*(self.Yn[:, i-1] + self.h*K2/2), self.tn[i-1] + self.h/2)
-                K4 = self.fun(*(self.Yn[:, i-1] + self.h*K3), self.tn[i-1] + self.h)
-                self.Yn[:, i] = self.Yn[:, i-1] + self.h*(K1 + 2*K2 + 2*K3 + K4)/6
+                K1 = self.fun(*self.Yn[:, i - 1], self.tn[i - 1])
+                K2 = self.fun(*(self.Yn[:, i - 1] + self.h * K1 / 2), self.tn[i - 1] + self.h / 2)
+                K3 = self.fun(*(self.Yn[:, i - 1] + self.h * K2 / 2), self.tn[i - 1] + self.h / 2)
+                K4 = self.fun(*(self.Yn[:, i - 1] + self.h * K3), self.tn[i - 1] + self.h)
+                self.Yn[:, i] = self.Yn[:, i - 1] + self.h * (K1 + 2 * K2 + 2 * K3 + K4) / 6
 
         else:
             raise ValueError("求解方式输入错误,仅支持欧拉法(Euler)，2-4阶龙格-库塔法(RK2, RK3, RK4)")
-
 
     def __print__(self):
 
         """
         打印输出结果
         """
-        
+
         pd.set_option('display.max_rows', None)
         pd.set_option('display.unicode.ambiguous_as_wide', True)
         pd.set_option('display.unicode.east_asian_width', True)
@@ -99,7 +96,7 @@ class FirstOrderOde:
         df = pd.DataFrame()
         df["t"] = self.tn
         for i in range(len(self.Yn)):
-            df["y"+str(i+1)] = self.Yn[i,:]
+            df["y" + str(i + 1)] = self.Yn[i, :]
         if self.solve_type == "Euler":
             print("显式欧拉法求解\n一阶方程组的数值解")
         elif self.solve_type == "RK2":
@@ -108,12 +105,11 @@ class FirstOrderOde:
             print("3阶龙格-库塔法\n一阶方程组的数值解")
         else:
             print("4阶龙格-库塔法\n一阶方程组的数值解")
-        print("="*20)
+        print("=" * 20)
         print(df)
-        print("="*20)
+        print("=" * 20)
 
-    
-    def plot(self, is_show:bool=True):
+    def plot(self, is_show: bool = True):
 
         """
         绘制结果
@@ -121,7 +117,7 @@ class FirstOrderOde:
         """
 
         if is_show:
-            plt.figure(figsize=(16,12), dpi=300)
+            plt.figure(figsize=(16, 12), dpi=300)
         if self.solve_type == "Euler":
             plt.title("显式欧拉法\n求解一阶方程组的数值解", fontsize=14)
         elif self.solve_type == "RK2":
@@ -132,8 +128,8 @@ class FirstOrderOde:
             plt.title("4阶龙格-库塔法\n求解一阶方程组的数值解", fontsize=14)
         t = np.asarray(self.tn)
         for i in range(self.Yn.shape[0]):
-            y = np.asarray(self.Yn[i,:])
-            plt.plot(t, y, linewidth=1.5, label="y"+str(i+1))
+            y = np.asarray(self.Yn[i, :])
+            plt.plot(t, y, linewidth=1.5, label="y" + str(i + 1))
         plt.gca().spines['right'].set_visible(False)
         plt.gca().spines['top'].set_visible(False)
         plt.xlabel("t", fontsize=12)

@@ -5,7 +5,6 @@ matplotlib.rcParams["font.sans-serif"] = ["STSong"]
 matplotlib.rcParams["axes.unicode_minus"] = False
 
 
-
 class GuassChebyshevIntergration:
 
     """
@@ -32,7 +31,6 @@ class GuassChebyshevIntergration:
         self.int_value = None  # 积分值结果
         self.A_k = None  # 求积系数
 
-
     def cal_int(self):
         """
         高斯——切比雪夫求积公式
@@ -42,12 +40,12 @@ class GuassChebyshevIntergration:
             k_i = np.linspace(0, self.n, self.n + 1, dtype=np.int64)
             self.zero_points = np.cos((2 * k_i + 1) * np.pi / (2 * self.n + 2))
             self.A_k = np.pi / (self.n + 1)
-            f_val = self.int_fun(self.zero_points) * np.sqrt(1 - self.zero_points**2)
+            f_val = self.int_fun(self.zero_points) * np.sqrt(1 - self.zero_points ** 2)
             self.int_value = self.A_k * np.sum(f_val)
         elif self.cheb_type == 2:
             k_i = np.linspace(1, self.n, self.n, dtype=np.int64)
             self.zero_points = np.cos(k_i * np.pi / (self.n + 1))
             self.A_k = np.pi / (self.n + 1) * np.sin(k_i * np.pi / (self.n + 1)) ** 2
-            f_val = self.int_fun(self.zero_points) / np.sqrt(1 - self.zero_points**2)
+            f_val = self.int_fun(self.zero_points) / np.sqrt(1 - self.zero_points ** 2)
             self.int_value = np.dot(self.A_k, f_val)
         return self.int_value

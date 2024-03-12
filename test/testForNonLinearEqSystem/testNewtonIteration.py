@@ -12,8 +12,8 @@ from src.modules.nonLinearEqSystem.newtoniteration import NewtonIterationMethod
 
 # 测试用例
 x = sp.Symbol('x')
-fun = x**3+10*x-20
-fun1 = x**3/3-x
+fun = x ** 3 + 10 * x - 20
+fun1 = x ** 3 / 3 - x
 newton1 = NewtonIterationMethod(fun1, x0=1.5, iter_type="offhill")
 newton2 = NewtonIterationMethod(fun1, x0=1.5, iter_type="simnewton")
 newton3 = NewtonIterationMethod(fun1, x0=1.5, iter_type="default")

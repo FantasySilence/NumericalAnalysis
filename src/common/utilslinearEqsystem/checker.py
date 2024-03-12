@@ -8,14 +8,13 @@ class isMatrixReasonable:
     """
 
     def __init__(self, model_name: str):
-        
+
         self.model_name = model_name
 
-    
     def __call__(self, func):
 
         def wrapper(cls, matrix: np.ndarray, *args, **kwargs):
-            
+
             if self.model_name == "GaussElimate":
                 self._checkForGauss(matrix)
             if self.model_name == "Iteration":
@@ -26,8 +25,8 @@ class isMatrixReasonable:
                 self._checkForTriangle(matrix)
             res = func(cls, matrix, *args, **kwargs)
             return res
+
         return wrapper
-    
 
     def _checkForGauss(self, matrix: np.ndarray):
 
@@ -43,9 +42,8 @@ class isMatrixReasonable:
         if np.linalg.matrix_rank(check_matrix[:, :-1]) != np.linalg.matrix_rank(matrix):
             raise ValueError('该线性方程组无解')
         if np.linalg.matrix_rank(check_matrix[:, :-1]) == np.linalg.matrix_rank(matrix) \
-           and np.linalg.matrix_rank(check_matrix[:, :-1]) != check_matrix[:, :-1].shape[0]:
+                and np.linalg.matrix_rank(check_matrix[:, :-1]) != check_matrix[:, :-1].shape[0]:
             raise ValueError('该线性方程组有多个解,暂时支持有唯一解的方程组')
-
 
     def _checkForIteration(self, matrix: np.ndarray):
 
@@ -55,7 +53,6 @@ class isMatrixReasonable:
 
         self._checkForGauss(matrix)
 
-    
     def _checkForSquare(self, matrix: np.ndarray):
 
         """
@@ -63,16 +60,15 @@ class isMatrixReasonable:
         """
 
         check_matrix = matrix.copy()
-        if check_matrix[:,:-1].shape[0] != check_matrix[:,:-1].shape[1]:
+        if check_matrix[:, :-1].shape[0] != check_matrix[:, :-1].shape[1]:
             raise ValueError('线性方程组的系数矩阵不是方阵')
-        if not np.allclose(check_matrix[:,:-1], check_matrix[:,:-1].T):
+        if not np.allclose(check_matrix[:, :-1], check_matrix[:, :-1].T):
             raise ValueError('线性方程组的系数矩阵不是对称矩阵')
-        if np.linalg.matrix_rank(check_matrix[:,:-1]) != np.linalg.matrix_rank(matrix):
+        if np.linalg.matrix_rank(check_matrix[:, :-1]) != np.linalg.matrix_rank(matrix):
             raise ValueError('该线性方程组无解')
-        if np.linalg.matrix_rank(check_matrix[:,:-1]) == np.linalg.matrix_rank(matrix) \
-           and np.linalg.matrix_rank(check_matrix[:,:-1]) < check_matrix[:,:-1].shape[0]:
+        if np.linalg.matrix_rank(check_matrix[:, :-1]) == np.linalg.matrix_rank(matrix) \
+                and np.linalg.matrix_rank(check_matrix[:, :-1]) < check_matrix[:, :-1].shape[0]:
             raise ValueError('该线性方程组有多个解,暂时支持有唯一解的方程组')
-    
 
     def _checkForTriangle(self, matrix: np.ndarray):
 
@@ -81,11 +77,10 @@ class isMatrixReasonable:
         """
 
         check_matrix = matrix.copy()
-        if check_matrix[:,:-1].shape[0] != check_matrix[:,:-1].shape[1]:
+        if check_matrix[:, :-1].shape[0] != check_matrix[:, :-1].shape[1]:
             raise ValueError('线性方程组的系数矩阵不是方阵')
-        if np.linalg.matrix_rank(check_matrix[:,:-1]) != np.linalg.matrix_rank(matrix):
+        if np.linalg.matrix_rank(check_matrix[:, :-1]) != np.linalg.matrix_rank(matrix):
             raise ValueError('该线性方程组无解')
-        if np.linalg.matrix_rank(check_matrix[:,:-1]) == np.linalg.matrix_rank(matrix) \
-           and np.linalg.matrix_rank(check_matrix[:,:-1]) < check_matrix[:,:-1].shape[0]:
+        if np.linalg.matrix_rank(check_matrix[:, :-1]) == np.linalg.matrix_rank(matrix) \
+                and np.linalg.matrix_rank(check_matrix[:, :-1]) < check_matrix[:, :-1].shape[0]:
             raise ValueError('该线性方程组有多个解,暂时支持有唯一解的方程组')
-        

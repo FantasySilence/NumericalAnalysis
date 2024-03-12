@@ -12,6 +12,6 @@ from src.modules.nonLinearEqSystem.fixedpoint import FixedPointsIteration
 
 # 测试用例
 x = sp.Symbol('x')
-fun = sp.sqrt(10-x**3)/2
-fpi = FixedPointsIteration(iter_fun=fun, x0=1.5, interval=[1, 2], 
+fun = sp.sqrt(10 - x ** 3) / 2
+fpi = FixedPointsIteration(iter_fun=fun, x0=1.5, interval=[1, 2],
                            is_print=True, is_plot=True)

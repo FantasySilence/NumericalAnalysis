@@ -12,9 +12,9 @@ from src.modules.approximation.bestsquare import BestSquareApproximation
 
 # 测试用例
 t = sp.symbols('t')
-fun = 1/(1+t**2)
+fun = 1 / (1 + t ** 2)
 
-bsa = BestSquareApproximation(fun,x_span=[-5,5],k=30)
+bsa = BestSquareApproximation(fun, x_span=[-5, 5], k=30)
 bsa.fit_approximation()
 print('最佳平方逼近系数及对应阶次：')
 print(bsa.poly_coefficient)

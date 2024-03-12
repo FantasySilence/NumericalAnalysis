@@ -14,7 +14,7 @@ from src.modules.approximation.legendreseries import LegendreSeriesApproximation
 t = sp.symbols('t')
 fun = sp.exp(t)
 
-lsa = LegendreSeriesApproximation(fun,x_span=[-1,1],k=3)
+lsa = LegendreSeriesApproximation(fun, x_span=[-1, 1], k=3)
 lsa.fit_approximation()
 print('勒让德级数逼近系数及对应阶次：')
 print(lsa.poly_coefficient)

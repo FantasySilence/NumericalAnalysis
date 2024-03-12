@@ -17,28 +17,30 @@ from src.modules.approximation.chebyshevseries import ChebyshevSeriesApproximati
 from src.modules.approximation.chebyshevzero import ChebyshevZeroPointsInterpolation
 from src.modules.approximation.legendreseries import LegendreSeriesApproximation
 
+
 # 三种逼近方法的比较
 def runge_fun(x):
-    return 1/(x**2+1)
+    return 1 / (x ** 2 + 1)
+
 
 t = sp.symbols('t')
-fun = 1/(t**2+1)
+fun = 1 / (t ** 2 + 1)
 orders = [10, 25]
-plt.figure(figsize=(14,15))
+plt.figure(figsize=(14, 15))
 for i, order in enumerate(orders):
     plt.subplot(321 + i)
-    cpzi = ChebyshevZeroPointsInterpolation(runge_fun,x_span=[-5,5],order=order)
+    cpzi = ChebyshevZeroPointsInterpolation(runge_fun, x_span=[-5, 5], order=order)
     cpzi.fit_approximation()
     cpzi.plt_approximation(is_show=False)
-    print("切比雪夫零点插值的最大绝对误差：",cpzi.max_abs_error)
+    print("切比雪夫零点插值的最大绝对误差：", cpzi.max_abs_error)
     plt.subplot(323 + i)
-    csa = ChebyshevSeriesApproximation(fun, x_span=[-5,5], k=order)
+    csa = ChebyshevSeriesApproximation(fun, x_span=[-5, 5], k=order)
     csa.fit_approximation()
     csa.plt_approximation(is_show=False)
-    print("切比雪夫级数逼近的最大绝对误差：",csa.max_abs_error)
+    print("切比雪夫级数逼近的最大绝对误差：", csa.max_abs_error)
     plt.subplot(325 + i)
-    lsa = LegendreSeriesApproximation(fun, x_span=[-5,5], k=order)
+    lsa = LegendreSeriesApproximation(fun, x_span=[-5, 5], k=order)
     lsa.fit_approximation()
     lsa.plt_approximation(is_show=False)
-    print("勒让德级数逼近的最大绝对误差：",lsa.max_abs_error)
+    print("勒让德级数逼近的最大绝对误差：", lsa.max_abs_error)
 plt.show()

@@ -10,7 +10,6 @@ class FilesIO:
 
     @staticmethod
     def getSavePath(name: str):
-
         """
         获取图片保存路径
         """
@@ -22,5 +21,4 @@ class FilesIO:
 
 
 if __name__ == "__main__":
-
     print(FilesIO.getSavePath("image_1.png"))

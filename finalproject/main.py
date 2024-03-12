@@ -8,7 +8,7 @@ from utils.Ques_2 import SolutionToQuesTwo
 print("#=======第2题=======#")
 t = sp.Symbol("t")
 # 勒让德多项式
-fun_list = [1, t, (3 * t**2 - 1) / 2, (5 * t**3 - 3 * t) / 2]
+fun_list = [1, t, (3 * t ** 2 - 1) / 2, (5 * t ** 3 - 3 * t) / 2]
 # 题目中给出的离散数据点
 x = np.array([0, 0.3, 0.4, 0.5, 0.6, 0.8, 0.9, 1])
 y = np.array([1, 1.25, 1.3, 1.35, 1.6, 1.8, 2.6, 3])
@@ -19,7 +19,6 @@ print("拟合多项式为：{}".format(sol_2.fit_poly))
 sol_2.plt_curve_fit()
 print("=" * 20)
 print()
-
 
 # =======第3题=======#
 from utils.Ques_3 import SolutionToQuesThree
@@ -38,7 +37,6 @@ if spe_radius < 1:
 print("=" * 20)
 print()
 
-
 # =======第4题=======#
 from utils.Ques_4 import SolutionToQuesFour
 
@@ -46,7 +44,6 @@ x = sp.Symbol("x")
 fun = x * sp.exp(3 * x) - 2
 sol_4 = SolutionToQuesFour(fun=fun, x0=0.5, eps=1e-15, is_print=True)
 print()
-
 
 # =======第5题=======#
 from utils.Ques_5 import SolutionToQuesFive
@@ -57,12 +54,12 @@ print("#=======第5题=======#")
 
 # 题目中的微分方程
 def f(x, y):
-    return -(x**2) * y**2
+    return -(x ** 2) * y ** 2
 
 
 # 题目中微分方程的精确解
 def g(x):
-    return 3 / (1 + x**3)
+    return 3 / (1 + x ** 3)
 
 
 sol_5 = SolutionToQuesFive(fun=f, interval=[0, 1.5], x0=0, y0=3, h=0.1, is_print=False)

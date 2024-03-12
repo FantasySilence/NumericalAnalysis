@@ -14,7 +14,7 @@ from src.modules.approximation.chebyshevseries import ChebyshevSeriesApproximati
 t = sp.symbols('t')
 fun = sp.exp(t)
 
-csa = ChebyshevSeriesApproximation(fun,x_span=[-1,1],k=3)
+csa = ChebyshevSeriesApproximation(fun, x_span=[-1, 1], k=3)
 csa.fit_approximation()
 print('切比雪夫级数逼近系数及对应阶次：')
 print(csa.poly_coefficient)

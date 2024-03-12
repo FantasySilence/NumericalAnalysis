@@ -10,12 +10,14 @@ sys.path.append(root_path)
 # 导入对应模块
 from src.modules.intergration.gausshermiteint import GuassHermiteIntergration
 
+
 # 测试用例
 def fun(x):
-    return x**2*np.exp(-x**2)
+    return x ** 2 * np.exp(-x ** 2)
+
 
 herm = GuassHermiteIntergration(fun, zeros_num=15)
 herm.cal_int()
 print(herm.zero_points)
 print(herm.A_k)
-print(herm.int_value, np.sqrt(np.pi)/2 - herm.int_value)
+print(herm.int_value, np.sqrt(np.pi) / 2 - herm.int_value)
