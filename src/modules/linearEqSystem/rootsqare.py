@@ -1,7 +1,7 @@
 import numpy as np
 from fractions import Fraction
 
-from src.common.utilslinearEqsystem.checker import isMatrixReasonable
+from src.common.utilslinearEqsystem.checker import IsMatrixReasonable
 
 
 class RootSquareDecomposition:
@@ -11,7 +11,7 @@ class RootSquareDecomposition:
     要求系数矩阵为对称(正定)矩阵
     """
 
-    @isMatrixReasonable("RootSquare")
+    @IsMatrixReasonable("RootSquare")
     def __init__(self, matrix: np.ndarray, decom_type: str = "ichol", is_print: bool = True):
 
         """
